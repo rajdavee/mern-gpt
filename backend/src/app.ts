@@ -8,25 +8,10 @@ import cors from "cors";
 config();
 const app = express();
 
-// Define allowed origins
-const allowedOrigins = [
-  "http://localhost:5173", // Local development URL
-  "https://mern-3lumfqo87-raj-24642cc0.vercel.app" // Deployed frontend URL
-];
 
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin) || !origin) { // Allow requests from the specified origins
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true, // Allow cookies to be sent and received
-};
 
 // Middlewares
-app.use(cors(corsOptions));
+app.use(cors();
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
