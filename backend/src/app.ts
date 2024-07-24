@@ -8,17 +8,10 @@ import cors from "cors";
 config();
 const app = express();
 
-// CORS configuration
-const corsOptions = {
-  origin: [
-    "http://localhost:5173", // Local development URL
-    "https://mern-nn78yafqe-raj-24642cc0.vercel.app" // Deployed frontend URL
-  ],
-  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-};
+
 
 // Middlewares
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
