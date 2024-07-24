@@ -10,12 +10,12 @@ export const getAllUsers = async (
   next: NextFunction
 ) => {
   try {
-    //get all users
+    // Get all users
     const users = await User.find();
     return res.status(200).json({ message: "OK", users });
   } catch (error) {
     console.log(error);
-    return res.status(200).json({ message: "ERROR", cause: error.message });
+    return res.status(500).json({ message: "ERROR", cause: error.message });
   }
 };
 
@@ -25,7 +25,7 @@ export const userSignup = async (
   next: NextFunction
 ) => {
   try {
-    //user signup
+    // User signup
     const { name, email, password } = req.body;
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(401).send("User already registered");
@@ -33,10 +33,10 @@ export const userSignup = async (
     const user = new User({ name, email, password: hashedPassword });
     await user.save();
 
-    // create token and store cookie
+    // Create token and store cookie
     res.clearCookie(COOKIE_NAME, {
       httpOnly: true,
-      domain: "localhost",
+      domain: "mern-nn78yafqe-raj-24642cc0.vercel.app", // Update to match your deployed frontend domain
       signed: true,
       path: "/",
     });
@@ -46,7 +46,7 @@ export const userSignup = async (
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: "localhost",
+      domain: "mern-nn78yafqe-raj-24642cc0.vercel.app", // Update to match your deployed frontend domain
       expires,
       httpOnly: true,
       signed: true,
@@ -57,7 +57,7 @@ export const userSignup = async (
       .json({ message: "OK", name: user.name, email: user.email });
   } catch (error) {
     console.log(error);
-    return res.status(200).json({ message: "ERROR", cause: error.message });
+    return res.status(500).json({ message: "ERROR", cause: error.message });
   }
 };
 
@@ -67,7 +67,7 @@ export const userLogin = async (
   next: NextFunction
 ) => {
   try {
-    //user login
+    // User login
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
@@ -78,11 +78,10 @@ export const userLogin = async (
       return res.status(403).send("Incorrect Password");
     }
 
-    // create token and store cookie
-
+    // Create token and store cookie
     res.clearCookie(COOKIE_NAME, {
       httpOnly: true,
-      domain: "localhost",
+      domain: "mern-nn78yafqe-raj-24642cc0.vercel.app", // Update to match your deployed frontend domain
       signed: true,
       path: "/",
     });
@@ -92,7 +91,7 @@ export const userLogin = async (
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: "localhost",
+      domain: "mern-nn78yafqe-raj-24642cc0.vercel.app", // Update to match your deployed frontend domain
       expires,
       httpOnly: true,
       signed: true,
@@ -103,7 +102,7 @@ export const userLogin = async (
       .json({ message: "OK", name: user.name, email: user.email });
   } catch (error) {
     console.log(error);
-    return res.status(200).json({ message: "ERROR", cause: error.message });
+    return res.status(500).json({ message: "ERROR", cause: error.message });
   }
 };
 
@@ -113,7 +112,7 @@ export const verifyUser = async (
   next: NextFunction
 ) => {
   try {
-    //user token check
+    // User token check
     const user = await User.findById(res.locals.jwtData.id);
     if (!user) {
       return res.status(401).send("User not registered OR Token malfunctioned");
@@ -126,7 +125,7 @@ export const verifyUser = async (
       .json({ message: "OK", name: user.name, email: user.email });
   } catch (error) {
     console.log(error);
-    return res.status(200).json({ message: "ERROR", cause: error.message });
+    return res.status(500).json({ message: "ERROR", cause: error.message });
   }
 };
 
@@ -136,7 +135,7 @@ export const userLogout = async (
   next: NextFunction
 ) => {
   try {
-    //user token check
+    // User token check
     const user = await User.findById(res.locals.jwtData.id);
     if (!user) {
       return res.status(401).send("User not registered OR Token malfunctioned");
@@ -147,7 +146,7 @@ export const userLogout = async (
 
     res.clearCookie(COOKIE_NAME, {
       httpOnly: true,
-      domain: "localhost",
+      domain: "mern-nn78yafqe-raj-24642cc0.vercel.app", // Update to match your deployed frontend domain
       signed: true,
       path: "/",
     });
@@ -157,6 +156,6 @@ export const userLogout = async (
       .json({ message: "OK", name: user.name, email: user.email });
   } catch (error) {
     console.log(error);
-    return res.status(200).json({ message: "ERROR", cause: error.message });
+    return res.status(500).json({ message: "ERROR", cause: error.message });
   }
 };
