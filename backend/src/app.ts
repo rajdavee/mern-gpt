@@ -10,7 +10,10 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
-  origin: "https://mern-nn78yafqe-raj-24642cc0.vercel.app", // Frontend URL
+  origin: [
+    "http://localhost:5173", // Local development URL
+    "https://mern-nn78yafqe-raj-24642cc0.vercel.app" // Deployed frontend URL
+  ],
   credentials: true, // Allow credentials (cookies, authorization headers, etc.)
 };
 
